@@ -13,14 +13,12 @@ import java.util.Set;
 @Table(name = "creditCard")
 public class creditCard implements Serializable {
     // foreign key between creditCard and User
-    @Column(name = "userID")
-    @ManyToMany(mappedBy = "userCreditCard")
-    Set<User> creditCardUser;
+    //@ManyToMany(mappedBy = "userCreditCard")
+    //Set<User> creditCardUser;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "creditCardNumber")
-    private int creditCardNumber;
+    private String creditCardNumber;
 
     @Column(name = "creditCardName")
     private String creditCardName;
@@ -32,26 +30,17 @@ public class creditCard implements Serializable {
 
     }
 
-    public creditCard(Set<User> creditCardUser, int creditCardNumber, String creditCardName, String creditCardExpired) {
-        this.creditCardUser = creditCardUser;
+    public creditCard(String creditCardNumber, String creditCardName, String creditCardExpired) {
         this.creditCardNumber = creditCardNumber;
         this.creditCardName = creditCardName;
         this.creditCardExpired = creditCardExpired;
     }
 
-    public Set<User> getCreditCardUser() {
-        return creditCardUser;
-    }
-
-    public void setCreditCardUser(Set<User> creditCardUser) {
-        this.creditCardUser = creditCardUser;
-    }
-
-    public int getCreditCardNumber() {
+    public String getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(int creditCardNumber) {
+    public void setCreditCardNumber(String creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 

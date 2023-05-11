@@ -13,7 +13,7 @@ import java.util.Set;
 public class Text implements Serializable {
     // foreign key between Text and User
     @Column(name = "userID")
-    @ManyToMany(mappedBy = "userText")
+    //@ManyToMany(mappedBy = "userText")
     Set<User> textUser;
 
     @Id

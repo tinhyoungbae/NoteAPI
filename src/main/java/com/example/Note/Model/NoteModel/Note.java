@@ -12,9 +12,9 @@ import java.util.Set;
 @Table(name = "note")
 public class Note implements Serializable {
     // foreign key between Note and User
-    @Column(name = "userID")
-    @ManyToMany(mappedBy = "userNote")
-    Set<User> noteUser;
+    // Column(name = "userID")
+    // ManyToMany(mappedBy = "userNote")
+    //Set<User> noteUser;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "noteID")
@@ -30,19 +30,10 @@ public class Note implements Serializable {
 
     }
 
-    public Note(Set<User> noteUser, int noteID, String noteTitle, String noteContent) {
-        this.noteUser = noteUser;
+    public Note(int noteID, String noteTitle, String noteContent) {
         this.noteID = noteID;
         this.noteTitle = noteTitle;
         this.noteContent = noteContent;
-    }
-
-    public Set<User> getNoteUser() {
-        return noteUser;
-    }
-
-    public void setNoteUser(Set<User> noteUser) {
-        this.noteUser = noteUser;
     }
 
     public int getNoteID() {

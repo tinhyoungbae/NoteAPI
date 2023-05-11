@@ -12,14 +12,17 @@ import java.util.Set;
 @Table(name = "comment")
 public class Comment implements Serializable {
     // foreign key between Comment and User
-    @Column(name = "userID")
-    @ManyToMany(mappedBy = "userComment")
-    Set<User> commentUser;
+    // Column(name = "userID")
+    // ManyToMany(mappedBy = "userComment")
+    // Set<User> commentUser;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentID")
     private int commentID;
+
+    @Column(name = "commentTitle")
+    private String commentTitle;
 
     @Column(name = "commentContent")
     private String commentContent;
@@ -28,18 +31,10 @@ public class Comment implements Serializable {
 
     }
 
-    public Comment(Set<User> commentUser, int commentID, String commentContent) {
-        this.commentUser = commentUser;
+    public Comment(int commentID, String commentTitle, String commentContent) {
+        this.commentContent = commentContent;
         this.commentID = commentID;
         this.commentContent = commentContent;
-    }
-
-    public Set<User> getCommentUser() {
-        return commentUser;
-    }
-
-    public void setCommentUser(Set<User> commentUser) {
-        this.commentUser = commentUser;
     }
 
     public int getCommentID() {
@@ -48,6 +43,14 @@ public class Comment implements Serializable {
 
     public void setCommentID(int commentID) {
         this.commentID = commentID;
+    }
+
+    public String getCommentTitle() {
+        return commentTitle;
+    }
+
+    public void setCommentTitle(String commentTitle) {
+        this.commentTitle = commentTitle;
     }
 
     public String getCommentContent() {

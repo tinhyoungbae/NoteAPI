@@ -20,7 +20,6 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID")
-
     private int userID;
 
     @Column(name = "userPassword")
@@ -35,12 +34,12 @@ public class User implements Serializable {
 
 
     @Column(name = "userSex")
-    private boolean userSex;
+    private String userSex;
 
 
     @Column(name = "userAddress")
     private String userAddress;
-
+/*
     // relationship: User --> Note
     @ManyToMany
     Set<Note> userNote;
@@ -73,11 +72,13 @@ public class User implements Serializable {
     @ManyToMany
     Set<commentWithImage> userCommentWithImage;
 
+ */
+
     public User(){
 
     }
 
-    public User(int userID, String userPassword, String userFullName, String userDate, boolean userSex, String userAddress) {
+    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userFullName = userFullName;
@@ -118,11 +119,11 @@ public class User implements Serializable {
         this.userDate = userDate;
     }
 
-    public boolean isUserSex() {
+    public String isUserSex() {
         return userSex;
     }
 
-    public void setUserSex(boolean userSex) {
+    public void setUserSex(String userSex) {
         this.userSex = userSex;
     }
 
