@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 public interface interfaceCreditCardService{
     public ResponseEntity<Response> getCreditCardList();
-    public ResponseEntity<Response> getCreditCardByNumber(String creditCardNumber);
+    public ResponseEntity<Response> getCreditCardByID(int creditCardID);
     public ResponseEntity<Response> addCreditCard(creditCard creditCard);
     public ResponseEntity<Response> updateCreditCard(creditCard creditCard);
-    public ResponseEntity<Response> deleteACreditCard(String creditCardNumber);
+    public ResponseEntity<Response> deleteCreditCard(int creditCardID);
 }

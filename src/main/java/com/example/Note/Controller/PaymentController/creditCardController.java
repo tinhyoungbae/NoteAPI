@@ -26,9 +26,9 @@ public class creditCardController {
     }
 
     // find an user
-    @GetMapping("/creditCard/{creditCardNumber}")
-    public ResponseEntity<Response> getCreditCardByNumber(@PathVariable String creditCardNumber){
-        return creditCardService.getCreditCardByNumber(creditCardNumber);
+    @GetMapping("/creditCard/{creditCardID}")
+    public ResponseEntity<Response> getCreditCardByNumber(@PathVariable int creditCardID){
+        return creditCardService.getCreditCardByID(creditCardID);
     }
 
     // update an user
@@ -39,7 +39,7 @@ public class creditCardController {
 
     // delete an user
     @DeleteMapping("/creditCard/{creditCardNumber}")
-    public ResponseEntity<Response> deleteCreditCard(@PathVariable String creditCardNumber) {
-        return creditCardService.deleteACreditCard(creditCardNumber);
+    public ResponseEntity<Response> deleteCreditCard(@PathVariable int creditCardID) {
+        return creditCardService.deleteCreditCard(creditCardID);
     }
 }

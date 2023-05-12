@@ -2,6 +2,8 @@ package com.example.Note.Model.PaymentModel;
 
 import com.example.Note.Model.NoteModel.Note;
 import com.example.Note.Model.UserModel.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,13 +14,10 @@ import java.util.Set;
 @Data
 @Table(name = "creditCard")
 public class creditCard implements Serializable {
-    // foreign key between creditCard and User
-    //@ManyToMany(mappedBy = "userCreditCard")
-    //Set<User> creditCardUser;
-
     @Id
-    @Column(name = "creditCardNumber")
-    private String creditCardNumber;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "creditCardID")
+    private int creditCardID;
 
     @Column(name = "creditCardName")
     private String creditCardName;
@@ -26,37 +25,52 @@ public class creditCard implements Serializable {
     @Column(name = "creditCardExpired")
     private String creditCardExpired;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="credit_card_id")
+    private User user;
+
     public creditCard(){
 
     }
 
-    public creditCard(String creditCardNumber, String creditCardName, String creditCardExpired) {
-        this.creditCardNumber = creditCardNumber;
+    public creditCard(int creditCardID, String creditCardName, String creditCardExpired, User user) {
+        this.creditCardID = creditCardID;
         this.creditCardName = creditCardName;
         this.creditCardExpired = creditCardExpired;
+        this.user = user;
     }
 
-    public String getCreditCardNumber() {
-        return creditCardNumber;
-    }
-
-    public void setCreditCardNumber(String creditCardNumber) {
-        this.creditCardNumber = creditCardNumber;
+    public int getCreditCardID() {
+        return creditCardID;
     }
 
     public String getCreditCardName() {
         return creditCardName;
     }
 
-    public void setCreditCardName(String creditCardName) {
-        this.creditCardName = creditCardName;
-    }
-
     public String getCreditCardExpired() {
         return creditCardExpired;
     }
 
+    @JsonBackReference
+    public User getUser() {
+        return user;
+    }
+
+    public void setCreditCardID(int creditCardID) {
+        this.creditCardID = creditCardID;
+    }
+
+    public void setCreditCardName(String creditCardName) {
+        this.creditCardName = creditCardName;
+    }
+
     public void setCreditCardExpired(String creditCardExpired) {
         this.creditCardExpired = creditCardExpired;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

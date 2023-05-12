@@ -32,15 +32,15 @@ public class creditCardService implements interfaceCreditCardService{
     }
 
     @Override
-    public ResponseEntity<Response> getCreditCardByNumber(String creditCardNumber) {
-        Optional<creditCard> creditCardOptional = interfaceCreditCardRepository.findById(creditCardNumber);
+    public ResponseEntity<Response> getCreditCardByID(int creditCardID) {
+        Optional<creditCard> creditCardOptional = interfaceCreditCardRepository.findById(creditCardID);
         if(creditCardOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body(
                     new Response(Status.getStatusOk(), Status.getMessageOk()+" ---> got all credit card", creditCardOptional.get())
             );
         }else {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new Response(Status.getStatusError(), "There isn't credit card number = "+creditCardNumber +" in database. Please try again.", "")
+                    new Response(Status.getStatusError(), "There isn't ID credit card = "+creditCardID +" in database. Please try again.", "")
             );
         }
     }
@@ -68,14 +68,14 @@ public class creditCardService implements interfaceCreditCardService{
             );
         }else {
             return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                    new Response(Status.getStatusError(), "Can not update Credit Card. Please try again.", "")
+                    new Response(Status.getStatusError(), "Can not update Account. Please try again.", "")
             );
         }
     }
 
     @Override
-    public ResponseEntity<Response> deleteACreditCard(String creditCardNumber) {
-        Optional<creditCard> creditCardOptional = interfaceCreditCardRepository.findById(creditCardNumber);
+    public ResponseEntity<Response> deleteCreditCard(int creditCardID) {
+        Optional<creditCard> creditCardOptional = interfaceCreditCardRepository.findById(creditCardID);
         //getAccount();
         if(creditCardOptional.isPresent()){
             interfaceCreditCardRepository.delete(creditCardOptional.get());

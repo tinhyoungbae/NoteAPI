@@ -7,10 +7,13 @@ import com.example.Note.Model.FriendModel.isFriend;
 import com.example.Note.Model.NewsModel.News;
 import com.example.Note.Model.NoteModel.Note;
 import com.example.Note.Model.PaymentModel.creditCard;
+import com.example.Note.Model.Price;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,52 +42,52 @@ public class User implements Serializable {
 
     @Column(name = "userAddress")
     private String userAddress;
-/*
+
+
+
     // relationship: User --> Note
-    @ManyToMany
-    Set<Note> userNote;
+    @OneToMany(mappedBy="noteID", cascade = CascadeType.ALL)
+    private List<Note> userNote;
 
     // relationship: User --> CreditCard
-    @ManyToMany
-    Set<creditCard> userCreditCard;
+    @OneToMany(mappedBy="creditCardID", cascade = CascadeType.ALL)
+    private List<creditCard> userCreditCard;
 
     // relationship: User --> News
-    @ManyToMany
-    Set<News> userNews;
+    @OneToMany(mappedBy="newsID", cascade = CascadeType.ALL)
+    private List<News> userNews;
 
     // relationship: User --> Text
-    @ManyToMany
-    Set<Text> userText;
+    @OneToMany(mappedBy="textID", cascade = CascadeType.ALL)
+    private List<Text> userText;
 
-    // relationship: User1 --> Friend
-    @ManyToMany
-    Set<isFriend> user1IsFriend;
+    // relationship: User --> Comment
+    @OneToMany(mappedBy="commentID", cascade = CascadeType.ALL)
+    private List<Comment> userComment;
 
-    // relationship: User2 --> Friend
-    @ManyToMany
-    Set<isFriend> user2IsFriend;
+    // relationship: User --> Comment with image
+    @OneToMany(mappedBy="commentWithImageID", cascade = CascadeType.ALL)
+    private List<commentWithImage> userCommentWithImage;
 
-    // relationship: User --> Comment with Text
-    @ManyToMany
-    Set<Comment> userComment;
 
-    // relationship: User --> Comment with Image
-    @ManyToMany
-    Set<commentWithImage> userCommentWithImage;
-
- */
 
     public User(){
 
     }
 
-    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress) {
+    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress, List<Note> userNote, List<creditCard> userCreditCard, List<News> userNews, List<Text> userText, List<Comment> userComment, List<commentWithImage> userCommentWithImage) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userFullName = userFullName;
         this.userDate = userDate;
         this.userSex = userSex;
         this.userAddress = userAddress;
+        this.userNote = userNote;
+        this.userCreditCard = userCreditCard;
+        this.userNews = userNews;
+        this.userText = userText;
+        this.userComment = userComment;
+        this.userCommentWithImage = userCommentWithImage;
     }
 
     public int getUserID() {
@@ -119,9 +122,6 @@ public class User implements Serializable {
         this.userDate = userDate;
     }
 
-    public String isUserSex() {
-        return userSex;
-    }
 
     public void setUserSex(String userSex) {
         this.userSex = userSex;
@@ -133,5 +133,64 @@ public class User implements Serializable {
 
     public void setUserAddress(String userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+
+    @JsonManagedReference
+    public List<Note> getUserNote() {
+        return userNote;
+    }
+
+    @JsonManagedReference
+    public List<creditCard> getUserCreditCard() {
+        return userCreditCard;
+    }
+
+    @JsonManagedReference
+    public List<News> getUserNews() {
+        return userNews;
+    }
+
+    @JsonManagedReference
+    public List<Text> getUserText() {
+        return userText;
+    }
+
+    @JsonManagedReference
+    public List<Comment> getUserComment() {
+        return userComment;
+    }
+
+    @JsonManagedReference
+    public List<commentWithImage> getUserCommentWithImage() {
+        return userCommentWithImage;
+    }
+
+    public void setUserNote(List<Note> userNote) {
+        this.userNote = userNote;
+    }
+
+    public void setUserCreditCard(List<creditCard> userCreditCard) {
+        this.userCreditCard = userCreditCard;
+    }
+
+    public void setUserNews(List<News> userNews) {
+        this.userNews = userNews;
+    }
+
+    public void setUserText(List<Text> userText) {
+        this.userText = userText;
+    }
+
+    public void setUserComment(List<Comment> userComment) {
+        this.userComment = userComment;
+    }
+
+    public void setUserCommentWithImage(List<commentWithImage> userCommentWithImage) {
+        this.userCommentWithImage = userCommentWithImage;
     }
 }

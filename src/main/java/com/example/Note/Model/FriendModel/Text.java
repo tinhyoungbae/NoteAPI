@@ -1,6 +1,8 @@
 package com.example.Note.Model.FriendModel;
 
 import com.example.Note.Model.UserModel.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,11 +13,6 @@ import java.util.Set;
 @Data
 @Table(name = "text")
 public class Text implements Serializable {
-    // foreign key between Text and User
-    @Column(name = "userID")
-    //@ManyToMany(mappedBy = "userText")
-    Set<User> textUser;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "textID")
@@ -24,37 +21,43 @@ public class Text implements Serializable {
     @Column(name = "textContent")
     private String textContent;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="text_id")
+    private User user;
+
     public Text(){
 
     }
 
-    public Text(Set<User> textUser, int textID, String textContent) {
-        this.textUser = textUser;
+    public Text(int textID, String textContent, User user) {
         this.textID = textID;
         this.textContent = textContent;
-    }
-
-    public Set<User> getTextUser() {
-        return textUser;
-    }
-
-    public void setTextUser(Set<User> textUser) {
-        this.textUser = textUser;
+        this.user = user;
     }
 
     public int getTextID() {
         return textID;
     }
 
-    public void setTextID(int textID) {
-        this.textID = textID;
-    }
-
     public String getTextContent() {
         return textContent;
     }
 
+    @JsonBackReference
+    public User getUser() {
+        return user;
+    }
+
+    public void setTextID(int textID) {
+        this.textID = textID;
+    }
+
     public void setTextContent(String textContent) {
         this.textContent = textContent;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
