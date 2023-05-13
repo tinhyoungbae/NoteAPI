@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -21,6 +19,10 @@ public class Product implements Serializable {
     @Column(name = "productName")
     private String productName;
 
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String image;
+
     @OneToMany(mappedBy="product", cascade = CascadeType.ALL)
     private List<Price> productPrice;
 
@@ -28,9 +30,10 @@ public class Product implements Serializable {
 
     }
 
-    public Product(int productID, String productName, List<Price> productPrice) {
+    public Product(int productID, String productName, String image, List<Price> productPrice) {
         this.productID = productID;
         this.productName = productName;
+        this.image = image;
         this.productPrice = productPrice;
     }
 
@@ -57,5 +60,13 @@ public class Product implements Serializable {
 
     public void setProductPrice(List<Price> productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

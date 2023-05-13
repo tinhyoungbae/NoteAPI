@@ -6,6 +6,7 @@ import com.example.Note.Model.FriendModel.commentWithImage;
 import com.example.Note.Model.FriendModel.isFriend;
 import com.example.Note.Model.NewsModel.News;
 import com.example.Note.Model.NoteModel.Note;
+import com.example.Note.Model.UserModel.userImage;
 import com.example.Note.Model.PaymentModel.creditCard;
 import com.example.Note.Model.Price;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -69,13 +70,15 @@ public class User implements Serializable {
     @OneToMany(mappedBy="commentWithImageID", cascade = CascadeType.ALL)
     private List<commentWithImage> userCommentWithImage;
 
-
+    // relationship: User --> Comment with image file
+    @OneToMany(mappedBy="userImageID", cascade = CascadeType.ALL)
+    private List<userImage> userImage;
 
     public User(){
 
     }
 
-    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress, List<Note> userNote, List<creditCard> userCreditCard, List<News> userNews, List<Text> userText, List<Comment> userComment, List<commentWithImage> userCommentWithImage) {
+    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress, List<Note> userNote, List<creditCard> userCreditCard, List<News> userNews, List<Text> userText, List<Comment> userComment, List<commentWithImage> userCommentWithImage, List<userImage> userImage) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userFullName = userFullName;
@@ -88,6 +91,7 @@ public class User implements Serializable {
         this.userText = userText;
         this.userComment = userComment;
         this.userCommentWithImage = userCommentWithImage;
+        this.userImage = userImage;
     }
 
     public int getUserID() {
@@ -192,5 +196,14 @@ public class User implements Serializable {
 
     public void setUserCommentWithImage(List<commentWithImage> userCommentWithImage) {
         this.userCommentWithImage = userCommentWithImage;
+    }
+
+    @JsonManagedReference
+    public List<userImage> getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(List<userImage> userImage) {
+        this.userImage = userImage;
     }
 }
