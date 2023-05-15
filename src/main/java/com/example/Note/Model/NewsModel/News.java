@@ -1,13 +1,15 @@
 package com.example.Note.Model.NewsModel;
 
+import com.example.Note.Model.ImageModel.imageNews;
 import com.example.Note.Model.UserModel.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,30 +28,48 @@ public class News implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="news_id")
+    @JoinColumn(name="userIDWithNewsID")
+    @JsonBackReference
     private User user;
+
+    @OneToMany(mappedBy="imageNewsID", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<imageNews> imageNews;
 
     public News(){
 
     }
 
-    public News(int newsID, String newsTitle, String newsContent, User user) {
+    public News(int newsID, String newsTitle, String newsContent, User user, List<com.example.Note.Model.ImageModel.imageNews> imageNews) {
         this.newsID = newsID;
         this.newsTitle = newsTitle;
         this.newsContent = newsContent;
         this.user = user;
+        this.imageNews = imageNews;
     }
 
     public int getNewsID() {
         return newsID;
     }
 
+    public void setNewsID(int newsID) {
+        this.newsID = newsID;
+    }
+
     public String getNewsTitle() {
         return newsTitle;
     }
 
+    public void setNewsTitle(String newsTitle) {
+        this.newsTitle = newsTitle;
+    }
+
     public String getNewsContent() {
         return newsContent;
+    }
+
+    public void setNewsContent(String newsContent) {
+        this.newsContent = newsContent;
     }
 
     @JsonBackReference
@@ -57,19 +77,16 @@ public class News implements Serializable {
         return user;
     }
 
-    public void setNewsID(int newsID) {
-        this.newsID = newsID;
-    }
-
-    public void setNewsTitle(String newsTitle) {
-        this.newsTitle = newsTitle;
-    }
-
-    public void setNewsContent(String newsContent) {
-        this.newsContent = newsContent;
-    }
-
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @JsonManagedReference
+    public List<imageNews> getImageNews() {
+        return imageNews;
+    }
+
+    public void setImageNews(List<imageNews> imageNews) {
+        this.imageNews = imageNews;
     }
 }

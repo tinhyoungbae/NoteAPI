@@ -3,19 +3,15 @@ package com.example.Note.Model.UserModel;
 import com.example.Note.Model.FriendModel.Comment;
 import com.example.Note.Model.FriendModel.Text;
 import com.example.Note.Model.FriendModel.commentWithImage;
-import com.example.Note.Model.FriendModel.isFriend;
 import com.example.Note.Model.NewsModel.News;
 import com.example.Note.Model.NoteModel.Note;
-import com.example.Note.Model.UserModel.userImage;
 import com.example.Note.Model.PaymentModel.creditCard;
-import com.example.Note.Model.Price;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -74,11 +70,12 @@ public class User implements Serializable {
     @OneToMany(mappedBy="userImageID", cascade = CascadeType.ALL)
     private List<userImage> userImage;
 
+
     public User(){
 
     }
 
-    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress, List<Note> userNote, List<creditCard> userCreditCard, List<News> userNews, List<Text> userText, List<Comment> userComment, List<commentWithImage> userCommentWithImage, List<userImage> userImage) {
+    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress, List<Note> userNote, List<creditCard> userCreditCard, List<News> userNews, List<Text> userText, List<Comment> userComment, List<commentWithImage> userCommentWithImage, List<com.example.Note.Model.UserModel.userImage> userImage) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userFullName = userFullName;
@@ -142,7 +139,6 @@ public class User implements Serializable {
     public String getUserSex() {
         return userSex;
     }
-
 
     @JsonManagedReference
     public List<Note> getUserNote() {

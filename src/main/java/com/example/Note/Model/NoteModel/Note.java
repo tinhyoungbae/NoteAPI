@@ -1,13 +1,15 @@
 package com.example.Note.Model.NoteModel;
 
+import com.example.Note.Model.ImageModel.imageNote;
 import com.example.Note.Model.UserModel.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,30 +28,46 @@ public class Note implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="note_id")
+    @JoinColumn(name="fk_user_note")
     private User user;
+
+    @OneToMany(mappedBy="imageNoteID", cascade = CascadeType.ALL)
+    private List<imageNote> imageNote;
 
     public Note(){
 
     }
 
-    public Note(int noteID, String noteTitle, String noteContent, User user) {
+    public Note(int noteID, String noteTitle, String noteContent, User user, List<com.example.Note.Model.ImageModel.imageNote> imageNote) {
         this.noteID = noteID;
         this.noteTitle = noteTitle;
         this.noteContent = noteContent;
         this.user = user;
+        this.imageNote = imageNote;
     }
 
     public int getNoteID() {
         return noteID;
     }
 
+    public void setNoteID(int noteID) {
+        this.noteID = noteID;
+    }
+
     public String getNoteTitle() {
         return noteTitle;
     }
 
+    public void setNoteTitle(String noteTitle) {
+        this.noteTitle = noteTitle;
+    }
+
     public String getNoteContent() {
         return noteContent;
+    }
+
+    public void setNoteContent(String noteContent) {
+        this.noteContent = noteContent;
     }
 
     @JsonBackReference
@@ -57,19 +75,16 @@ public class Note implements Serializable {
         return user;
     }
 
-    public void setNoteID(int noteID) {
-        this.noteID = noteID;
-    }
-
-    public void setNoteTitle(String noteTitle) {
-        this.noteTitle = noteTitle;
-    }
-
-    public void setNoteContent(String noteContent) {
-        this.noteContent = noteContent;
-    }
-
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @JsonManagedReference
+    public List<imageNote> getImageNote() {
+        return imageNote;
+    }
+
+    public void setImageNote(List<imageNote> imageNote) {
+        this.imageNote = imageNote;
     }
 }

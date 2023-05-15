@@ -2,11 +2,9 @@ package com.example.Note.Model.UserModel;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.io.File;
 import java.io.Serializable;
 
 @Entity

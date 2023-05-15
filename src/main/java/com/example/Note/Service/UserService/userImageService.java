@@ -1,24 +1,31 @@
 package com.example.Note.Service.UserService;
 
 import com.example.Note.Model.ResponseModel.Response;
-import com.example.Note.Model.UserModel.User;
 import com.example.Note.Model.UserModel.userImage;
+import com.example.Note.Repository.UserRepository.interfaceUserImageRepository;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.example.Note.Repository.UserRepository.interfaceUserImageRepository;
-import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class userImageService implements interfaceUserImageService{
     @Autowired
     interfaceUserImageRepository interfaceUserImageRepository;
+
+    public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
     @Override
     public ResponseEntity<Response> getUserImageList() {
         List<userImage> userImageList = interfaceUserImageRepository.findAll();
@@ -34,29 +41,26 @@ public class userImageService implements interfaceUserImageService{
     }
 
     @Override
-    public userImage getUserImageByID(int userImageID) {
-        return null;
+    public ResponseEntity<byte[]> getUserImageByID(@PathVariable int userImageID) {;
+            try {
+                HttpHeaders headers = new HttpHeaders();
+                Optional<userImage> userImage = interfaceUserImageRepository.findById(userImageID);
+                ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(
+                        userImage.get().getUserImageFile().getBytes(), headers, HttpStatus.OK);
+                return responseEntity;
+            }catch (Exception e) {
+                return ResponseEntity.badRequest().build();
+            }
     }
 
     @Override
-    public ResponseEntity<Response> addUserImage(userImage userImage, MultipartFile userImageFile) {
-        /*
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        if(fileName.contains(".."))
-        {
-            System.out.println("not a a valid file");
-        }
-        try {
-            p.setImage(file.getOriginalFilename());
-            //p.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-         */
-        //p.setImage(file.getOriginalFilename());
-        userImage.setUserImageFile(userImageFile.getOriginalFilename());
+    public ResponseEntity<Response> addUserImage(userImage userImage, MultipartFile userImageFile) throws IOException {
+        String filePath = Paths.get(uploadDirectory, userImageFile.getOriginalFilename()).toString();
+        userImage.setUserImageFile(filePath);
         interfaceUserImageRepository.save(userImage);
+        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+        stream.write(userImageFile.getBytes());
+        stream.close();
         return ResponseEntity.status(HttpStatus.OK).body(
                 new Response(Status.getStatusOk(), Status.getMessageOk()+" ---> add a file successfully", userImage)
         );

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.example.Note.Repository.FriendRepository.interfaceCommentWithImageRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,8 +46,11 @@ public class commentWithImageService implements interfaceCommentWithImageService
     }
 
     @Override
-    public ResponseEntity<Response> addCommentWithImage(commentWithImage commentWithImage) {
+    public ResponseEntity<Response> addCommentWithImage(String commentWithImageContent, MultipartFile url) {
+        commentWithImage commentWithImage = new commentWithImage();
         if (commentWithImage != null) {
+            commentWithImage.setCommentWithImageContent(commentWithImageContent);
+            commentWithImage.setUrl(url.getOriginalFilename());
             interfaceCommentWithImageRepository.save(commentWithImage);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new Response(Status.getStatusOk(), Status.getMessageOk(), commentWithImage)
