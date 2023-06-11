@@ -1,14 +1,15 @@
 package com.example.Note.Service.FriendService;
 
 import com.example.Note.Model.FriendModel.Comment;
-import com.example.Note.Model.NewsModel.News;
 import com.example.Note.Model.ResponseModel.Response;
+import com.example.Note.Model.UserModel.User;
+import com.example.Note.Repository.FriendRepository.interfaceCommentRepository;
+import com.example.Note.Repository.UserRepository.interfaceUserRepository;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.example.Note.Repository.FriendRepository.interfaceCommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class commentService implements interfaceCommentService{
     @Autowired
     interfaceCommentRepository interfaceCommentRepository;
+    @Autowired
+    interfaceUserRepository interfaceUserRepository;
     @Override
     public ResponseEntity<Response> getCommentList() {
         List<Comment> commentList = interfaceCommentRepository.findAll();
@@ -46,8 +49,10 @@ public class commentService implements interfaceCommentService{
     }
 
     @Override
-    public ResponseEntity<Response> addComment(Comment comment) {
+    public ResponseEntity<Response> addComment(int userID, Comment comment) {
         if (comment != null) {
+            User user = interfaceUserRepository.findById(userID).get();
+            comment.setUser(user);
             interfaceCommentRepository.save(comment);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new Response(Status.getStatusOk(), Status.getMessageOk(), comment)

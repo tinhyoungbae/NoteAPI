@@ -1,12 +1,11 @@
 package com.example.Note.Controller.NewsController;
 
 import com.example.Note.Model.NewsModel.News;
-import com.example.Note.Model.NoteModel.Note;
 import com.example.Note.Model.ResponseModel.Response;
+import com.example.Note.Service.NewsService.newsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.Note.Service.NewsService.newsService;
 
 @RestController
 public class NewsController {
@@ -20,9 +19,9 @@ public class NewsController {
     }
 
     // add a news
-    @PostMapping("/news")
-    public ResponseEntity<Response> addNews(@RequestBody News news){
-        return newsService.addNews(news);
+    @PutMapping("/news/{userID}")
+    public ResponseEntity<Response> addNews(@PathVariable int userID, @RequestBody News news){
+        return newsService.addNews(userID, news);
     }
 
     // find a news

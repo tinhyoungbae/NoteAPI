@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 public interface interfaceImageCommentService {
     public ResponseEntity<Response> getImageCommentList();
     public imageComment getImageCommentByID(int imageCommentID);
-    public ResponseEntity<Response> addImageComment(imageComment imageComment, String imageCommentName, MultipartFile imageCommentPath, String imageCommentSize, Timestamp imageCommentCreatedDate);
+    public ResponseEntity<Response> addImageComment(int commentID, imageComment imageComment, String imageCommentName, MultipartFile imageCommentPath, String imageCommentSize, Timestamp imageCommentCreatedDate);
     public ResponseEntity<Response> updateImageComment(imageComment imageComment);
     public ResponseEntity<Response> deleteImageComment(int imageCommentID);
 }

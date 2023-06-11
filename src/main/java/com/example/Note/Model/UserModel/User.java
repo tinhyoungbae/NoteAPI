@@ -2,23 +2,21 @@ package com.example.Note.Model.UserModel;
 
 import com.example.Note.Model.FriendModel.Comment;
 import com.example.Note.Model.FriendModel.Text;
-import com.example.Note.Model.FriendModel.commentWithImage;
 import com.example.Note.Model.NewsModel.News;
 import com.example.Note.Model.NoteModel.Note;
 import com.example.Note.Model.PaymentModel.creditCard;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "User")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "userID")
     private int userID;
 
@@ -43,39 +41,35 @@ public class User implements Serializable {
 
 
     // relationship: User --> Note
-    @OneToMany(mappedBy="noteID", cascade = CascadeType.ALL)
-    private List<Note> userNote;
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> userNote = new ArrayList<>();
 
     // relationship: User --> CreditCard
-    @OneToMany(mappedBy="creditCardID", cascade = CascadeType.ALL)
-    private List<creditCard> userCreditCard;
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<creditCard> userCreditCard = new ArrayList<>();
 
     // relationship: User --> News
-    @OneToMany(mappedBy="newsID", cascade = CascadeType.ALL)
-    private List<News> userNews;
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<News> userNews = new ArrayList<>();
 
     // relationship: User --> Text
-    @OneToMany(mappedBy="textID", cascade = CascadeType.ALL)
-    private List<Text> userText;
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Text> userText = new ArrayList<>();
 
     // relationship: User --> Comment
-    @OneToMany(mappedBy="commentID", cascade = CascadeType.ALL)
-    private List<Comment> userComment;
-
-    // relationship: User --> Comment with image
-    @OneToMany(mappedBy="commentWithImageID", cascade = CascadeType.ALL)
-    private List<commentWithImage> userCommentWithImage;
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> userComment = new ArrayList<>();
 
     // relationship: User --> Comment with image file
-    @OneToMany(mappedBy="userImageID", cascade = CascadeType.ALL)
-    private List<userImage> userImage;
+    @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<userImage> userImage = new ArrayList<>();
 
 
     public User(){
 
     }
 
-    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress, List<Note> userNote, List<creditCard> userCreditCard, List<News> userNews, List<Text> userText, List<Comment> userComment, List<commentWithImage> userCommentWithImage, List<com.example.Note.Model.UserModel.userImage> userImage) {
+    public User(int userID, String userPassword, String userFullName, String userDate, String userSex, String userAddress, List<Note> userNote, List<creditCard> userCreditCard, List<News> userNews, List<Text> userText, List<Comment> userComment, List<com.example.Note.Model.UserModel.userImage> userImage) {
         this.userID = userID;
         this.userPassword = userPassword;
         this.userFullName = userFullName;
@@ -87,7 +81,6 @@ public class User implements Serializable {
         this.userNews = userNews;
         this.userText = userText;
         this.userComment = userComment;
-        this.userCommentWithImage = userCommentWithImage;
         this.userImage = userImage;
     }
 
@@ -165,11 +158,6 @@ public class User implements Serializable {
         return userComment;
     }
 
-    @JsonManagedReference
-    public List<commentWithImage> getUserCommentWithImage() {
-        return userCommentWithImage;
-    }
-
     public void setUserNote(List<Note> userNote) {
         this.userNote = userNote;
     }
@@ -190,9 +178,6 @@ public class User implements Serializable {
         this.userComment = userComment;
     }
 
-    public void setUserCommentWithImage(List<commentWithImage> userCommentWithImage) {
-        this.userCommentWithImage = userCommentWithImage;
-    }
 
     @JsonManagedReference
     public List<userImage> getUserImage() {

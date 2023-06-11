@@ -4,15 +4,12 @@ import com.example.Note.Model.FriendModel.Comment;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Data
 @Table(name = "imageComment")
-public class imageComment implements Serializable {
+public class imageComment{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "imageCommentID")
@@ -30,9 +27,8 @@ public class imageComment implements Serializable {
     @Column(name = "imageCommentSizeCreatedDate")
     private Timestamp imageCommentSizeCreatedDate;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "imageComment")
     @JsonIgnore
-    @JoinColumn(name="fk_comment_image")
     private Comment comment;
 
     public imageComment(){

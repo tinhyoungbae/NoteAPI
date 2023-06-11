@@ -3,14 +3,10 @@ package com.example.Note.Model.UserModel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-
-import java.io.Serializable;
 
 @Entity
-@Data
 @Table(name = "userImage")
-public class userImage implements Serializable {
+public class userImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userImageID")
@@ -21,7 +17,7 @@ public class userImage implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="user_image_id")
+    @JoinColumn(name="userID")
     private User user;
 
     public userImage(){

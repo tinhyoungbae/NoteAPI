@@ -1,9 +1,7 @@
 package com.example.Note.Controller.newProduct;
 
-import com.example.Note.Model.Price;
 import com.example.Note.Model.Product;
 import com.example.Note.Model.ResponseModel.Response;
-import com.example.Note.Service.PriceService;
 import com.example.Note.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class ProductController {
         return productService.addProduct(product);
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/aproduct")
     public ResponseEntity<Response> saveProduct(Product product, @RequestParam(value = "file") MultipartFile file,
                                                 @RequestParam("productName") String productName)
     {

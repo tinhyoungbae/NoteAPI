@@ -6,15 +6,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "news")
-public class News implements Serializable {
+public class News {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "newsID")
@@ -28,7 +25,7 @@ public class News implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="userIDWithNewsID")
+    @JoinColumn(name="userID")
     @JsonBackReference
     private User user;
 

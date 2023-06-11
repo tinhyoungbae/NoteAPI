@@ -11,16 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService{
     @Autowired
     ProductRepo productRepo;
-
     public ResponseEntity<Response> saveProductToDB(Product product, MultipartFile file, String productName)
     {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -28,16 +25,6 @@ public class ProductService implements IProductService{
         {
             System.out.println("not a a valid file");
         }
-        /*
-        try {
-            p.setImage(file.getOriginalFilename());
-            //p.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-         */
-        //p.setImage(file.getOriginalFilename());
         product.setImage(file.getOriginalFilename());
         product.setProductName(productName);
         productRepo.save(product);
@@ -52,7 +39,13 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public Product getProduct(int productID) {
+        Optional<Product> productOptional = productRepo.findById(productID);
+        return productOptional.get();
+    }
+
+    @Override
     public Product addProduct(Product product) {
-        return productRepo.saveAndFlush(product);
+        return productRepo.save(product);
     }
 }

@@ -6,13 +6,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "note")
 public class Note implements Serializable {
     @Id
@@ -28,7 +26,7 @@ public class Note implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="fk_user_note")
+    @JoinColumn(name="userID")
     private User user;
 
     @OneToMany(mappedBy="imageNoteID", cascade = CascadeType.ALL)

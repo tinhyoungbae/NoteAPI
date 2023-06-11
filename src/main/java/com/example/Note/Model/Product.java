@@ -1,40 +1,37 @@
 package com.example.Note.Model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
-@Table(name = "Product")
+@Table(name = "product")
 public class Product implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "productID")
     private int productID;
 
     @Column(name = "productName")
     private String productName;
 
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(name = "productFile")
     private String image;
 
-    @OneToMany(mappedBy="product", cascade = CascadeType.ALL)
-    private List<Price> productPrice;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Price> price = new ArrayList<>();
 
     public Product(){
 
     }
 
-    public Product(int productID, String productName, String image, List<Price> productPrice) {
+    public Product(int productID, String productName, String image, List<Price> price) {
         this.productID = productID;
         this.productName = productName;
         this.image = image;
-        this.productPrice = productPrice;
+        this.price = price;
     }
 
     public int getProductID() {
@@ -53,14 +50,6 @@ public class Product implements Serializable {
         this.productName = productName;
     }
 
-    @JsonManagedReference
-    public List<Price> getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductPrice(List<Price> productPrice) {
-        this.productPrice = productPrice;
-    }
 
     public String getImage() {
         return image;
@@ -68,5 +57,13 @@ public class Product implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<Price> getPrice() {
+        return price;
+    }
+
+    public void setPrice(List<Price> price) {
+        this.price = price;
     }
 }

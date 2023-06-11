@@ -20,9 +20,9 @@ public class creditCardController {
     }
 
     // add an user
-    @PostMapping("/creditCard")
-    public ResponseEntity<Response> addCreditCard(@RequestBody creditCard creditCard){
-        return creditCardService.addCreditCard(creditCard);
+    @PutMapping("/creditCard/{userID}")
+    public ResponseEntity<Response> addCreditCard(@PathVariable int userID, @RequestBody creditCard creditCard){
+        return creditCardService.addCreditCard(userID, creditCard);
     }
 
     // find an user

@@ -1,13 +1,11 @@
 package com.example.Note.Controller.FriendController;
 
-import com.example.Note.Model.FriendModel.Comment;
 import com.example.Note.Model.FriendModel.Text;
 import com.example.Note.Model.ResponseModel.Response;
-import com.example.Note.Service.FriendService.commentService;
+import com.example.Note.Service.FriendService.textService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.Note.Service.FriendService.textService;
 
 @RestController
 public class TextController {
@@ -21,9 +19,9 @@ public class TextController {
     }
 
     // add a text
-    @PostMapping("/text")
-    public ResponseEntity<Response> addText(@RequestBody Text text){
-        return textService.addText(text);
+    @PutMapping("/text/{userID}")
+    public Text addText(@PathVariable int userID, @RequestBody Text text){
+        return textService.addText(userID, text);
     }
 
     // find a text

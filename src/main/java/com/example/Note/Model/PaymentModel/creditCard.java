@@ -1,19 +1,13 @@
 package com.example.Note.Model.PaymentModel;
 
-import com.example.Note.Model.NoteModel.Note;
 import com.example.Note.Model.UserModel.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Set;
 
 @Entity
-@Data
 @Table(name = "creditCard")
-public class creditCard implements Serializable {
+public class creditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "creditCardID")
@@ -27,7 +21,7 @@ public class creditCard implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="credit_card_id")
+    @JoinColumn(name="userID")
     private User user;
 
     public creditCard(){

@@ -1,9 +1,10 @@
 package com.example.Note.Service.FriendService;
 
-import com.example.Note.Model.FriendModel.Comment;
 import com.example.Note.Model.FriendModel.Text;
 import com.example.Note.Model.ResponseModel.Response;
+import com.example.Note.Model.UserModel.User;
 import com.example.Note.Repository.FriendRepository.interfaceTextRepository;
+import com.example.Note.Repository.UserRepository.interfaceUserRepository;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class textService implements interfaceTextService{
     @Autowired
     interfaceTextRepository interfaceTextRepository;
+    @Autowired
+    interfaceUserRepository interfaceUserRepository;
     @Override
     public ResponseEntity<Response> getTextList() {
         List<Text> textList = interfaceTextRepository.findAll();
@@ -45,9 +48,12 @@ public class textService implements interfaceTextService{
         }
     }
 
+    /*
     @Override
-    public ResponseEntity<Response> addText(Text text) {
+    public ResponseEntity<Response> addText(int userID, Text text) {
         if (text != null) {
+            User user = interfaceUserRepository.findById(userID).get();
+            text.setUser(user);
             interfaceTextRepository.save(text);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new Response(Status.getStatusOk(), Status.getMessageOk(), text)
@@ -56,6 +62,14 @@ public class textService implements interfaceTextService{
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
                 new Response(Status.getStatusError(), Status.getMessageError(), "")
         );
+    }
+
+     */
+
+        public Text addText(int userID, Text text) {
+        User user = interfaceUserRepository.findById(userID).get();
+        text.setUser(user);
+        return interfaceTextRepository.save(text);
     }
 
     @Override

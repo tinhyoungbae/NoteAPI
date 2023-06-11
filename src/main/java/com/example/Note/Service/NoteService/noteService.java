@@ -2,11 +2,13 @@ package com.example.Note.Service.NoteService;
 
 import com.example.Note.Model.NoteModel.Note;
 import com.example.Note.Model.ResponseModel.Response;
+import com.example.Note.Model.UserModel.User;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.Note.Repository.NoteRepository.interfaceNoteRepository;
+import com.example.Note.Repository.UserRepository.interfaceUserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class noteService implements interfaceNoteService{
     @Autowired
     interfaceNoteRepository interfaceNoteRepository;
+    @Autowired
+    interfaceUserRepository interfaceUserRepository;
     @Override
     public ResponseEntity<Response> getNoteList() {
         List<Note> noteList = interfaceNoteRepository.findAll();
@@ -45,8 +49,10 @@ public class noteService implements interfaceNoteService{
     }
 
     @Override
-    public ResponseEntity<Response> addNote(Note note) {
+    public ResponseEntity<Response> addNote(int userID, Note note) {
+        User user = interfaceUserRepository.findById(userID).get();
         if (note != null) {
+            note.setUser(user);
             interfaceNoteRepository.save(note);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new Response(Status.getStatusOk(), Status.getMessageOk(), note)

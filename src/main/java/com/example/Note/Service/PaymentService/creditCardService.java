@@ -3,6 +3,7 @@ package com.example.Note.Service.PaymentService;
 import com.example.Note.Model.PaymentModel.creditCard;
 import com.example.Note.Model.ResponseModel.Response;
 import com.example.Note.Model.UserModel.User;
+import com.example.Note.Repository.UserRepository.interfaceUserRepository;
 import com.example.Note.Repository.PaymentRepository.interfaceCreditCardRepository;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import java.util.Optional;
 public class creditCardService implements interfaceCreditCardService{
     @Autowired
     interfaceCreditCardRepository interfaceCreditCardRepository;
+    @Autowired
+    interfaceUserRepository interfaceUserRepository;
     @Override
     public ResponseEntity<Response> getCreditCardList() {
         List<creditCard> creditCardList = interfaceCreditCardRepository.findAll();
@@ -46,8 +49,10 @@ public class creditCardService implements interfaceCreditCardService{
     }
 
     @Override
-    public ResponseEntity<Response> addCreditCard(creditCard creditCard) {
+    public ResponseEntity<Response> addCreditCard(int userID, creditCard creditCard) {
         if (creditCard != null) {
+            User user = interfaceUserRepository.findById(userID).get();
+            creditCard.setUser(user);
             interfaceCreditCardRepository.save(creditCard);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new Response(Status.getStatusOk(), Status.getMessageOk(), creditCard)

@@ -4,17 +4,12 @@ import com.example.Note.Model.UserModel.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Set;
 
 @Entity
-@Data
 @Table(name = "text")
-public class Text implements Serializable {
+public class Text {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "textID")
     private int textID;
 
@@ -23,7 +18,7 @@ public class Text implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="text_id")
+    @JoinColumn(name="userID")
     private User user;
 
     public Text(){

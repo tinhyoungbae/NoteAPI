@@ -1,19 +1,17 @@
 package com.example.Note.Model.FriendModel;
 
-import com.example.Note.Model.ImageModel.imageComment;
 import com.example.Note.Model.UserModel.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
+import com.example.Note.Model.ImageModel.imageComment;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
-@Data
-@Table(name = "Comment")
+@Table(name = "comment")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,17 +26,19 @@ public class Comment implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="fk_user_comment")
+    @JoinColumn(name="userID")
     private User user;
 
-    @OneToMany(mappedBy="imageCommentID", cascade = CascadeType.ALL)
-    private List<imageComment> imageComment;
+    @OneToOne
+    @JsonIgnore
+    @JoinColumn(name = "imageCommentID", referencedColumnName = "imageCommentID")
+    private imageComment imageComment;
 
     public Comment(){
 
     }
 
-    public Comment(int commentID, String commentTitle, String commentContent, User user, List<imageComment> imageComment) {
+    public Comment(int commentID, String commentTitle, String commentContent, User user, com.example.Note.Model.ImageModel.imageComment imageComment) {
         this.commentID = commentID;
         this.commentTitle = commentTitle;
         this.commentContent = commentContent;
@@ -79,12 +79,11 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
-    @JsonManagedReference
-    public List<imageComment> getImageComment() {
+    public imageComment getImageComment() {
         return imageComment;
     }
 
-    public void setImageComment(List<imageComment> imageComment) {
+    public void setImageComment(imageComment imageComment) {
         this.imageComment = imageComment;
     }
 }

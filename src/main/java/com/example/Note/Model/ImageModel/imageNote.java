@@ -4,15 +4,12 @@ import com.example.Note.Model.NoteModel.Note;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Data
 @Table(name = "imageNote")
-public class imageNote implements Serializable {
+public class imageNote{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "imageNoteID")
@@ -32,7 +29,7 @@ public class imageNote implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="fk_note_image")
+    @JoinColumn(name="noteID")
     private Note note;
 
     public imageNote(){

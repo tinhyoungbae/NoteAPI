@@ -2,7 +2,9 @@ package com.example.Note.Service.NewsService;
 
 import com.example.Note.Model.NewsModel.News;
 import com.example.Note.Model.ResponseModel.Response;
+import com.example.Note.Model.UserModel.User;
 import com.example.Note.Repository.NewsRepository.interfaceNewsRepository;
+import com.example.Note.Repository.UserRepository.interfaceUserRepository;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class newsService implements interfaceNewsService{
     @Autowired
     interfaceNewsRepository interfaceNewsRepository;
+    @Autowired
+    interfaceUserRepository interfaceUserRepository;
 
     @Override
     public ResponseEntity<Response> getNewsList() {
@@ -46,8 +50,10 @@ public class newsService implements interfaceNewsService{
     }
 
     @Override
-    public ResponseEntity<Response> addNews(News news) {
+    public ResponseEntity<Response> addNews(int userID, News news) {
         if (news != null) {
+            User user = interfaceUserRepository.findById(userID).get();
+            news.setUser(user);
             interfaceNewsRepository.save(news);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new Response(Status.getStatusOk(), Status.getMessageOk(), news)

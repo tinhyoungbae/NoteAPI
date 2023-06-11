@@ -1,18 +1,13 @@
 package com.example.Note.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.io.Serializable;
 
 @Entity
-@Data
-@Table(name = "Price")
-public class Price implements Serializable {
+@Table(name = "price")
+public class Price {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "priceID")
     private int priceID;
 
@@ -21,7 +16,7 @@ public class Price implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="product_product_id")
+    @JoinColumn(name = "productID")
     private Product product;
 
     public Price(){
@@ -50,7 +45,6 @@ public class Price implements Serializable {
         this.priceValue = priceValue;
     }
 
-    @JsonBackReference
     public Product getProduct() {
         return product;
     }

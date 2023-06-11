@@ -1,8 +1,10 @@
 package com.example.Note.Service.UserService;
 
 import com.example.Note.Model.ResponseModel.Response;
+import com.example.Note.Model.UserModel.User;
 import com.example.Note.Model.UserModel.userImage;
 import com.example.Note.Repository.UserRepository.interfaceUserImageRepository;
+import com.example.Note.Repository.UserRepository.interfaceUserRepository;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +26,8 @@ import java.util.Optional;
 public class userImageService implements interfaceUserImageService{
     @Autowired
     interfaceUserImageRepository interfaceUserImageRepository;
+    @Autowired
+    interfaceUserRepository interfaceUserRepository;
 
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
     @Override
@@ -54,13 +58,15 @@ public class userImageService implements interfaceUserImageService{
     }
 
     @Override
-    public ResponseEntity<Response> addUserImage(userImage userImage, MultipartFile userImageFile) throws IOException {
+    public ResponseEntity<Response> addUserImage(int userID, userImage userImage, MultipartFile userImageFile) throws IOException {
+        User user = interfaceUserRepository.findById(userID).get();
         String filePath = Paths.get(uploadDirectory, userImageFile.getOriginalFilename()).toString();
         userImage.setUserImageFile(filePath);
-        interfaceUserImageRepository.save(userImage);
         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
         stream.write(userImageFile.getBytes());
         stream.close();
+        userImage.setUser(user);
+        interfaceUserImageRepository.save(userImage);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new Response(Status.getStatusOk(), Status.getMessageOk()+" ---> add a file successfully", userImage)
         );

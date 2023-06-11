@@ -1,13 +1,11 @@
 package com.example.Note.Controller.FriendController;
 
 import com.example.Note.Model.FriendModel.Comment;
-import com.example.Note.Model.NewsModel.News;
 import com.example.Note.Model.ResponseModel.Response;
-import com.example.Note.Service.NewsService.newsService;
+import com.example.Note.Service.FriendService.commentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.Note.Service.FriendService.commentService;
 
 @RestController
 public class CommentController {
@@ -21,9 +19,9 @@ public class CommentController {
     }
 
     // add a comment
-    @PostMapping("/comment")
-    public ResponseEntity<Response> addComment(@RequestBody Comment comment){
-        return commentService.addComment(comment);
+    @PutMapping("/comment/{userID}")
+    public ResponseEntity<Response> addComment(@PathVariable int userID, @RequestBody Comment comment){
+        return commentService.addComment(userID, comment);
     }
 
     // find a comment

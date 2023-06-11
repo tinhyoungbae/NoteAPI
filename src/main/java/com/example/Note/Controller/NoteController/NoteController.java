@@ -19,9 +19,9 @@ public class NoteController {
     }
 
     // add a note
-    @PostMapping("/note")
-    public ResponseEntity<Response> addNote(@RequestBody Note note){
-        return noteService.addNote(note);
+    @PutMapping("/note/{userID}")
+    public ResponseEntity<Response> addNote(@PathVariable int userID, @RequestBody Note note){
+        return noteService.addNote(userID, note);
     }
 
     // find a note

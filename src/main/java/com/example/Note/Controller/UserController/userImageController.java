@@ -29,9 +29,9 @@ public class userImageController {
     }
 
     // add an user Image
-    @PostMapping("/userImage")
-    public ResponseEntity<Response> addUserImage(userImage userImage, @RequestParam(value = "file") MultipartFile userImageFile) throws IOException {
-        return userImageService.addUserImage(userImage, userImageFile);
+    @PutMapping("/userImage/{userID}")
+    public ResponseEntity<Response> addUserImage(@PathVariable int userID, userImage userImage, @RequestParam(value = "file") MultipartFile userImageFile) throws IOException {
+        return userImageService.addUserImage(userID, userImage, userImageFile);
     }
 
 }

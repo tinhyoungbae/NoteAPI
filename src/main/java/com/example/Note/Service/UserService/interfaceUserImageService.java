@@ -10,7 +10,7 @@ import java.io.IOException;
 public interface interfaceUserImageService {
     public ResponseEntity<Response> getUserImageList();
     public ResponseEntity<byte[]> getUserImageByID(int userImageID);
-    public ResponseEntity<Response> addUserImage(userImage userImage, MultipartFile userImageFile) throws IOException;
+    public ResponseEntity<Response> addUserImage(int userID, userImage userImage, MultipartFile userImageFile) throws IOException;
     public ResponseEntity<Response> updateUserImage(userImage userImage);
     public ResponseEntity<Response> deleteUserImage(int userImageID);
 }

@@ -1,7 +1,9 @@
 package com.example.Note.Service.ImageService;
 
+import com.example.Note.Model.FriendModel.Comment;
 import com.example.Note.Model.ImageModel.imageComment;
 import com.example.Note.Model.ResponseModel.Response;
+import com.example.Note.Repository.FriendRepository.interfaceCommentRepository;
 import com.example.Note.Repository.ImageRepository.interfaceImageCommentRepository;
 import com.example.Note.Status.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.sql.Timestamp;
 public class imageCommentService implements interfaceImageCommentService{
     @Autowired
     interfaceImageCommentRepository interfaceImageCommentRepository;
+    @Autowired
+    interfaceCommentRepository interfaceCommentRepository;
 
     public static String uploadDirectory = System.getProperty("user.dir") + "/uploads";
     @Override
@@ -29,12 +33,14 @@ public class imageCommentService implements interfaceImageCommentService{
     }
 
     @Override
-    public ResponseEntity<Response> addImageComment(imageComment imageComment, String imageCommentName, MultipartFile imageCommentPath, String imageCommentSize, Timestamp imageCommentCreatedDate) {
+    public ResponseEntity<Response> addImageComment(int commentID, imageComment imageComment, String imageCommentName, MultipartFile imageCommentPath, String imageCommentSize, Timestamp imageCommentCreatedDate) {
+        Comment comment = interfaceCommentRepository.findById(commentID).get();
         imageComment.setImageCommentName(imageCommentPath.getOriginalFilename());
         imageComment.setImageCommentPath(imageCommentPath.getName());
         imageComment.setImageCommentSize(imageCommentPath.getSize());
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
         imageComment.setImageCommentSizeCreatedDate(currentTimestamp);
+        imageComment.setComment(comment);
         interfaceImageCommentRepository.save(imageComment);
         return ResponseEntity.status(HttpStatus.OK).body(
                 new Response(Status.getStatusOk(), Status.getMessageOk()+" ---> add a file successfully", imageComment)
